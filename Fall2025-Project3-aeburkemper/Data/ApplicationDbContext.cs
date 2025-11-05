@@ -9,5 +9,8 @@ namespace Fall2025_Project3_aeburkemper.Data
             : base(options)
         {
         }
+        public DbSet<Fall2025_Project3_aeburkemper.Models.Actor> Actor { get; set; } = default!;
+        public DbSet<Fall2025_Project3_aeburkemper.Models.Movie> Movie { get; set; } = default!;
+        public DbSet<Fall2025_Project3_aeburkemper.Models.ActorMovie> ActorMovie { get; set; } = default!;
     }
 }
