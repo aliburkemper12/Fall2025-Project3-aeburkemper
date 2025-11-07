@@ -30,8 +30,8 @@ Users can create, read, update, and delete movies and actors, and manage actor-m
 
 ### UI & UX
 - Fully styled with custom CSS
-- DataTables integration for enhanced table management (optional bonus)
-- Responsive design
+- DataTables integration for enhanced table management
+- Responsive design with Bootstrap
 
 ---
 
