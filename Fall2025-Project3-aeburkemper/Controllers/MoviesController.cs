@@ -1,22 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Fall2025_Project3_aeburkemper.Data;
+using Fall2025_Project3_aeburkemper.Models;
+using Fall2025_Project3_aeburkemper.Models.ViewModels;
+using Fall2025_Project3_aeburkemper.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Fall2025_Project3_aeburkemper.Data;
-using Fall2025_Project3_aeburkemper.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using YourProjectName.Services;
 
 namespace Fall2025_Project3_aeburkemper.Controllers
 {
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IAIService _aiService;
+        private readonly ISentimentService _sentimentService;
 
-        public MoviesController(ApplicationDbContext context)
+        public MoviesController(ApplicationDbContext context, IAIService aiService, ISentimentService sentimentService)
+
         {
             _context = context;
+            _aiService = aiService;
+            _sentimentService = sentimentService;
         }
 
         public async Task<IActionResult> Poster(int? id)
@@ -51,13 +59,39 @@ namespace Fall2025_Project3_aeburkemper.Controllers
             }
 
             var movie = await _context.Movie
+                .Include(m => m.ActorMovies)
+                    .ThenInclude(am => am.Actor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
                 return NotFound();
             }
 
-            return View(movie);
+            // Get the list of actors
+            var actors = movie.ActorMovies.Select(am => am.Actor).ToList();
+
+            // Generate reviews using AI
+            var reviewTexts = await _aiService.GenerateMovieReviews(movie.Title, 10);
+
+            // Analyze sentiment for each review
+            var reviews = reviewTexts.Select(text => new ReviewWithSentiment
+            {
+                Text = text,
+                SentimentScore = _sentimentService.AnalyzeSentiment(text)
+            }).ToList();
+
+            // Calculate average sentiment
+            var averageSentiment = reviews.Any() ? reviews.Average(r => r.SentimentScore) : 0;
+
+            var viewModel = new MovieDetailsViewModel
+            {
+                Movie = movie,
+                Actors = actors,
+                Reviews = reviews,
+                AverageSentiment = averageSentiment
+            };
+
+            return View(viewModel);
         }
 
         // GET: Movies/Create
@@ -106,8 +140,6 @@ namespace Fall2025_Project3_aeburkemper.Controllers
         }
 
         // POST: Movies/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,IMDBLink,Year,Genre")] Movie movie, IFormFile? Poster)

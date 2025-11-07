@@ -63,6 +63,21 @@ namespace Fall2025_Project3_aeburkemper.Controllers
         {
             if (ModelState.IsValid)
             {
+                // check for duplicate
+                bool exists = await _context.ActorMovie
+                    .AnyAsync(am => am.ActorId == actorMovie.ActorId && am.MovieId == actorMovie.MovieId);
+
+                if (exists)
+                {
+                    ModelState.AddModelError("", "This actor is already assigned to that movie.");
+
+                    ViewData["ActorId"] = new SelectList(_context.Actor, "Id", "Name", actorMovie.ActorId);
+                    ViewData["MovieId"] = new SelectList(_context.Movie, "Id", "Title", actorMovie.MovieId);
+
+                    return View(actorMovie);
+                }
+
+                // no duplicate
                 _context.Add(actorMovie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

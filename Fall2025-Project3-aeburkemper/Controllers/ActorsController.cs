@@ -1,23 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Fall2025_Project3_aeburkemper.Data;
+using Fall2025_Project3_aeburkemper.Models;
+using Fall2025_Project3_aeburkemper.Models.ViewModels;
+using Fall2025_Project3_aeburkemper.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Fall2025_Project3_aeburkemper.Data;
-using Fall2025_Project3_aeburkemper.Models;
-using Fall2025_Project3_aeburkemper.Models.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using YourProjectName.Services;
 
 namespace Fall2025_Project3_aeburkemper.Controllers
 {
     public class ActorsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IAIService _aiService;
+        private readonly ISentimentService _sentimentService;
 
-        public ActorsController(ApplicationDbContext context)
+        public ActorsController(ApplicationDbContext context, IAIService aiService, ISentimentService sentimentService)
         {
             _context = context;
+            _aiService = aiService;
+            _sentimentService = sentimentService;
         }
 
         public async Task<IActionResult> Photo(int? id)
@@ -52,7 +58,10 @@ namespace Fall2025_Project3_aeburkemper.Controllers
             }
 
             var actor = await _context.Actor
+                .Include(m => m.ActorMovies)
+                    .ThenInclude(am => am.Movie)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (actor == null)
             {
                 return NotFound();
@@ -64,10 +73,25 @@ namespace Fall2025_Project3_aeburkemper.Controllers
                 .Select(m => m.Movie!)
                 .ToListAsync();
 
+            // Generate tweets using AI
+            var tweetTexts = await _aiService.GenerateActorTweets(actor.Name, 20);
+
+            // Analyze sentiment for tweets
+            var tweets = tweetTexts.Select(text => new TweetsWithSentiment
+            {
+                Text = text,
+                SentimentScore = _sentimentService.AnalyzeSentiment(text)
+            }).ToList();
+
+            // Calculate average sentiment
+            var averageSentiment = tweets.Any() ? tweets.Average(r => r.SentimentScore) : 0;
+
             var vm = new ActorDetailsViewModel()
             {
                 Actor = actor,
-                Movies = movies
+                Movies = movies,
+                Tweets = tweets,
+                AverageSentiment = averageSentiment
 
             };
 

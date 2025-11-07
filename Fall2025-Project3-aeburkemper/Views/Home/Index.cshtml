@@ -1,8 +1,156 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section">
+    <div class="hero-overlay">
+        <div class="container text-center">
+            <h1 class="display-1 fw-bold mb-4 animate-fade-in">
+                Cine-Filer AI
+            </h1>
+            <p class="lead fs-3 mb-5 animate-fade-in-delay">
+                Build Your Collection. Experience AI-Powered Reviews.
+            </p>
+            <div class="hero-buttons animate-fade-in-delay-2">
+                <a asp-controller="Movies" asp-action="Index" class="btn btn-primary btn-lg mx-2 px-5 py-3">
+                    Browse Movies
+                </a>
+                <a asp-controller="Actors" asp-action="Index" class="btn btn-outline-light btn-lg mx-2 px-5 py-3">
+                    View Actors
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-12 text-center mb-5">
+            <h2 class="display-4 mb-4">What is Cine-Filer AI?</h2>
+            <p class="lead text-muted">
+                Cine-Filer AI combines traditional movie databases with cutting-edge artificial intelligence
+                to bring you unique insights into the world of cinema.
+            </p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon mb-3">
+                        🤖
+                    </div>
+                    <h3 class="card-title h4 mb-3">AI-Generated Reviews</h3>
+                    <p class="card-text text-muted">
+                        Get instant, diverse perspectives on any movie with our AI-powered review generator.
+                        Multiple viewpoints, all analyzed for sentiment.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon mb-3">
+                        🎭
+                    </div>
+                    <h3 class="card-title h4 mb-3">Actor Insights</h3>
+                    <p class="card-text text-muted">
+                        Explore detailed actor profiles with AI-generated tweets. See what
+                        people are saying about your favorite stars.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon mb-3">
+                        📊
+                    </div>
+                    <h3 class="card-title h4 mb-3">Sentiment Analysis</h3>
+                    <p class="card-text text-muted">
+                        Every review and tweet is analyzed for sentiment, giving you an instant understanding
+                        of public opinion with scores ranging from negative to positive.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="info-section card border-0 shadow-sm">
+                <div class="card-body p-5">
+                    <h3 class="h2 mb-4">How It Works</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="h5 mb-3">
+                                <span class="badge bg-primary me-2">1</span>
+                                Browse Movies & Actors
+                            </h4>
+                            <p class="text-muted">
+                                Explore your curated collection of movies and actors. Each entry includes
+                                details like genre, release year, and direct IMDB links.
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="h5 mb-3">
+                                <span class="badge bg-primary me-2">2</span>
+                                View AI Reviews
+                            </h4>
+                            <p class="text-muted">
+                                Click on any movie to see 10 AI-generated reviews with sentiment analysis,
+                                or view actor profiles with 20 AI-generated tweets.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h4 class="h5 mb-3">
+                                <span class="badge bg-primary me-2">3</span>
+                                Analyze Sentiment
+                            </h4>
+                            <p class="text-muted">
+                                Each review and tweet is scored from -1 (very negative) to +1 (very positive),
+                                with an average sentiment displayed for quick insights.
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="h5 mb-3">
+                                <span class="badge bg-primary me-2">4</span>
+                                Manage Your Collection
+                            </h4>
+                            <p class="text-muted">
+                                Create, edit, and organize your own movie and actor database. Link actors
+                                to movies and build comprehensive filmographies.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 mb-5">
+        <div class="col-md-12 text-center">
+            <div class="cta-section p-5 rounded">
+                <h2 class="display-5 mb-4" style="font-weight: 500;">Ready to Cine-File?</h2>
+                <p class="lead mb-4">
+                    Start curating movies and actors with the addition of AI-driven insights.
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a asp-controller="Movies" asp-action="Create" class="btn btn-success btn-lg px-5">
+                        Add a Movie
+                    </a>
+                    <a asp-controller="Actors" asp-action="Create" class="btn btn-info btn-lg px-5">
+                        Add an Actor
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
