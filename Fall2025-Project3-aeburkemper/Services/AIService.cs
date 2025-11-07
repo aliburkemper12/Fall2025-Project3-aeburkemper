@@ -25,7 +25,7 @@ namespace YourProjectName.Services
             var messages = new ChatMessage[]
             {
                 new SystemChatMessage($"You represent a group of {count} film critics with different opinions. When you receive a question, respond as each critic with each response separated by a '|', but don't indicate which critic you are."),
-                new UserChatMessage($"How would you rate the movie {movieTitle} out of 10 in 50 words or less per review?")
+                new UserChatMessage($"How would you review the movie {movieTitle} in 50 words or less per review?")
             };
 
             ClientResult<ChatCompletion> result = await client.CompleteChatAsync(messages);
