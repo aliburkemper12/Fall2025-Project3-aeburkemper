@@ -14,19 +14,14 @@ Users can create, read, update, and delete movies and actors, and manage actor-m
 
 ### Movies
 - CRUD operations: Create, Read, Update, Delete
-- Title, Genre, Year, Poster (stored as byte[])
-- IMDB link
 - AI-generated reviews with sentiment analysis
 
 ### Actors
 - CRUD operations
-- Name, Gender, Age, Photo (stored as byte[])
-- IMDB link
 - AI-generated tweets with sentiment analysis
 
 ### Actor-Movie Relationships
 - Manage relationships between actors and movies
-- Prevents duplicate entries
 - Displays related movies for actors and related actors for movies
 
 ### AI Integration
