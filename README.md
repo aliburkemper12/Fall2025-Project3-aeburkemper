@@ -1,6 +1,6 @@
 # AI Movie Database Web App - Course Project
 
-- **Azure URL:** [(https://fall2025-project3-aeburkemper-appservice.azurewebsites.net/)]   
+- **Azure URL:** [[Live View](https://fall2025-project3-aeburkemper-appservice.azurewebsites.net/)]   
 
 
 ## Overview
@@ -44,5 +44,5 @@ Users can create, read, update, and delete movies and actors, and manage actor-m
 
 The project is deployed on **Azure App Service**.
 
-- **Azure URL:** [(https://fall2025-project3-aeburkemper-appservice.azurewebsites.net/)]   
+- **Azure URL:** [[Live View](https://fall2025-project3-aeburkemper-appservice.azurewebsites.net/)]   
 
